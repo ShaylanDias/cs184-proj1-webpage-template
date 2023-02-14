@@ -1,0 +1,674 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>CS 184: Computer Graphics and Imaging, Spring 2023</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="03385f57-7a2c-4d84-92a8-8c0a271eb467" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🔺</span></div><h1 class="page-title">CS 184: Computer Graphics and Imaging, Spring 2023</h1></header><div class="page-body"><h1 id="33a9113c-808d-4e08-bda0-a0af46cf5352" class="">Project 1: Rasterizer</h1><h2 id="796ae97e-75b8-4ad0-bf9b-f5e322a7a96b" class="">Shaylan Dias</h2><h1 id="6cf8b58d-e2b0-4fae-9d82-3bcda77017b7" class="">Overview</h1><p id="511938c7-7bf8-4145-ab78-f38f28fe5c7e" class="">
+</p><h1 id="370c571b-f53a-41af-88b3-0edd14ccae24" class="">Section 1: Rasterization</h1><h2 id="047a209a-b0ab-48b4-b685-e9f31a97d0a9" class="">Part 1: Rasterizing single-color triangles</h2><p id="2e1a1140-2c38-4317-b7ea-26bd453235a4" class="">In order to rasterize a triangle I first calculate its bounding box by getting the minimum and maximum x and y values. I then iterate through this bounding box and run a check on each point to see if it is within the triangle. I do this by using the line test on each point to see if the point is above or below the line by taking the dot product of a vector perpendicular to the line and the vector from the first point of the line to the point being checked. If the point is either “above” or “below” all three of the lines then it is in the triangle and I call <code>fill_pixel</code> to fill its color.</p><p id="00205aa7-c533-43ab-8a42-755b84867bad" class="">This is no slower than checking each sample in the bounding box of the triangle since it does exactly that (calculates the bounding box and checks only the samples within it).</p><h3 id="469a6f95-e83d-4943-aea7-8062e1258a73" class="">Basic Test 4:</h3><figure id="0cbaaa35-66bb-4771-a7a9-07fe27dcb0a8" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-01_at_7.37.26_PM.png"><img style="width:419px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-01_at_7.37.26_PM.png"/></a></figure><h2 id="071be09b-09ab-4d9c-9d95-ec6b1f07ac11" class=""><strong>Part 2: Antialiasing triangles</strong></h2><p id="c8b3fcb8-6858-4f48-bacc-6b321ca4a424" class="">In order to supersample when rasterizing I took uniformly distributed samples within each pixel equal to the sampling number. To accomodate these extra samples I multiplied the size of the sample buffer by the number of samples per pixel. This created space to store all of the samples for each pixel without creating any extra data structures. This new sample buffer could then be indexed using the sample number in addition to the x and y coordinates of the pixel.</p><p id="2c9f835c-bd7a-4743-b327-25e46c1c0905" class="">To then render the rasterized triangle I averaged the colors of the samples at each pixel location and then pushed those to the frame buffer. The super sampling is useful because it takes into account that the color value at the center of a pixel may not reflect all of the information that needs to be present to render the image (especially in the case of angled edges and skinny points of triangles). The averaged values create a smoother blend for edges to avoid aliasing (jaggies!) and make it less likely that a pixel that should have color will be missing which causes the gaps in the purple and red triangles seen above.</p><p id="ff173411-10d0-426f-8759-487f8b29d312" class="">
+</p><div id="84d476bd-f57b-494b-a714-8b5c6dfac9ce" class="column-list"><div id="ae7a9c04-5d99-4c93-b629-0701c85322fe" style="width:33.333333333333336%" class="column"><figure id="96b66899-2649-466d-b649-819484026ba8" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_11.30.35_AM.png"><img style="width:1396px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_11.30.35_AM.png"/></a></figure></div><div id="df95317c-2a3b-421f-ace3-3adfea5f78b2" style="width:33.333333333333336%" class="column"><figure id="72b72dd0-c4d5-42b4-ad65-d27ad186b6e3" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_3.37.07_PM.png"><img style="width:724px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_3.37.07_PM.png"/></a></figure></div><div id="0b1f419a-d74f-4959-90f7-88088ae5546f" style="width:33.33333333333333%" class="column"><figure id="3d768e29-c0ec-47c5-8782-8867eb4e100c" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.04.11_PM.png"><img style="width:225px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.04.11_PM.png"/></a></figure></div></div><div id="3a7dde63-9bc2-4b92-8f41-9d382549cc8c" class="column-list"><div id="d41a8fdf-3fef-4a03-ac2b-6aa8f05d67c5" style="width:33.333333333333336%" class="column"><figure id="1d3649b2-c722-42f1-b6e2-bc42960c5882" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_11.30.47_AM.png"><img style="width:1382px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_11.30.47_AM.png"/></a></figure></div><div id="a0cd51d3-8169-4bad-bbc8-5ae49c1148cf" style="width:33.333333333333336%" class="column"><figure id="6657ffb5-5e83-4fcf-86d9-890deadb1eaa" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_3.36.56_PM.png"><img style="width:726px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_3.36.56_PM.png"/></a></figure></div><div id="72e7447b-d878-49ef-b1fc-59dda0da8d12" style="width:33.33333333333333%" class="column"><figure id="7f362134-8081-4950-8bb4-4384190bb7a9" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.04.32_PM.png"><img style="width:225px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.04.32_PM.png"/></a></figure></div></div><div id="cc4d68fe-3c04-4b13-b65c-a19d21d7c726" class="column-list"><div id="f23b966e-c240-490f-ab8b-6ec9c027a4b7" style="width:33.333333333333336%" class="column"><figure id="80ba04c6-8202-4d73-ba27-fce75fcacf70" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_11.30.57_AM.png"><img style="width:1366px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_11.30.57_AM.png"/></a></figure></div><div id="8c5dbebc-189f-4822-9354-9f443ab3a675" style="width:33.333333333333336%" class="column"><figure id="08fae508-366d-4ac0-bd6a-707d6c7abeda" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_3.36.44_PM.png"><img style="width:737px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_3.36.44_PM.png"/></a></figure></div><div id="d63457cf-0527-413f-82ad-34ebf3fd5713" style="width:33.33333333333333%" class="column"><figure id="e08d4ebe-8fbb-403a-bdc0-03d8c3d33d62" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.04.46_PM.png"><img style="width:223px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.04.46_PM.png"/></a></figure></div></div><div id="9e5a0e63-586c-42c3-b728-9c4285ac65a7" class="column-list"><div id="9a8a0e7b-2dd2-485c-a313-0f8ba8cf06a7" style="width:33.333333333333336%" class="column"><figure id="475b3ed6-3cbb-417e-92d5-42b6e7c55325" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_11.31.14_AM.png"><img style="width:1390px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_11.31.14_AM.png"/></a></figure></div><div id="f245765b-6d1a-41ff-b059-53db121483b5" style="width:33.333333333333336%" class="column"><figure id="c8c7348d-f57d-4c88-b6b0-1d936748fec5" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_3.36.28_PM.png"><img style="width:738px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-03_at_3.36.28_PM.png"/></a></figure></div><div id="9ea68208-ca34-45b9-ba14-4d07a869edac" style="width:33.33333333333333%" class="column"><figure id="cea65638-258f-4e84-b98c-094ca50e90bb" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.04.56_PM.png"><img style="width:223px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.04.56_PM.png"/></a></figure></div></div><h2 id="b3604c4e-d694-496e-b93c-b224dfd3eab2" class="">Part 3: Transforms</h2><p id="a5e12a53-2815-45f7-9c93-055a8c6c23b8" class="">I translated each of the transformation matrices from the lecture slides into the OpenGL C++ code for the project. One consideration that I did not immediately notice was that I needed to comvert the angle given in degrees to radians.</p><h3 id="bc667386-bdc0-477a-b785-3d923b64d1b9" class="">Original Cubeman:</h3><figure id="16bc9ccd-4cf2-41b0-b529-07c007744601" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.44.09_PM.png"><img style="width:688px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.44.09_PM.png"/></a></figure><h3 id="c6661237-b056-4f0e-85a9-0e90e859735e" class="">Modified Cubeman:</h3><figure id="260d7a9b-5b6f-4dd3-b6e2-509c98e5e465" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.53.23_PM.png"><img style="width:703px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_9.53.23_PM.png"/></a></figure><p id="6a4e10c5-5619-4f9b-bbe7-ed20fec581a2" class="">I attempted to modify the cubeman to make him look like he was dancing by rotating his arms into a disco-esque pose.</p><h1 id="72a904a9-ca34-4b67-a9cc-48bf7ff02721" class="">Section II: Sampling</h1><h3 id="7d865fc9-054a-478e-b5f8-d19287046640" class="">Part 4: Barycentric Coordinates</h3><p id="81258466-3d36-463a-9403-5a7d4593623b" class="">Barycentric coordinates are a coordinate positioning system within a triangle. Each point in the system consists of three weights, each of which is relative to one of the three points of the triangle. The coordinate system then positions the point using each weight as a proportion of how close it is to each corner (with all of the weights adding up to 1 if the point is within the triangle). We can see this at work in the image below where each point is colored using each weight for the color assigned to each corner. The colors are very distinct close to the corner where they are weighted close to 1, but blend smoothly toward the middle.</p><figure id="652d625a-53fa-4300-a6c4-94efb52bf634" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_10.12.42_PM.png"><img style="width:679px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_10.12.42_PM.png"/></a></figure><h3 id="81de0537-392f-4421-a487-0c832a0e891b" class="">Basic Test 7:</h3><figure id="fe18f9ed-0d77-4a74-af21-d7d2eef869d6" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_10.15.20_PM.png"><img style="width:661px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_10.15.20_PM.png"/></a></figure><h2 id="7d5d87e2-8db0-4ef4-afa7-354bacca7605" class=""><strong>Part 5: &quot;Pixel sampling&quot; for texture mapping</strong></h2><p id="82c1aac0-ccd6-454c-9569-e8f78f9a0cd5" class="">Pixel sampling means converting a point on the screen to a point within a separate texture which may be different from the screen itself and then interpolating a value from that point within the texture to display on the screen. I implemented it by solving the linear system for each x/y point and its conversion to the u/v space of the texture then sampling from that point using either nearest or bilinear sampling. For nearest neighbor this involves simply casting the u/v point to an integer and sampling at that point. For bilinear it involves looking at the four nearest integer points and returning a weighted average of them based on how near they are to the point.</p><p id="cf2b0487-adeb-492e-81d8-b84fb87385ea" class="">
+</p><h3 id="8f90f35a-fc61-4702-8970-b38df88f79a9" class="">Texmap Test 1:</h3><div id="c5d53274-dbba-46fe-92d0-3639bffbbfb4" class="column-list"><div id="1874ef86-6112-47dc-b85b-e36189552409" style="width:50%" class="column"><p id="b9317f2c-6990-4611-a5f0-a571ec731ffe" class="">Nearest</p><figure id="c533f350-7239-478c-905f-501351e414e6" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.19.30_PM.png"><img style="width:229px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.19.30_PM.png"/></a></figure><figure id="9becc7ab-d493-4f85-8e8d-6f5d917fbda1" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.19.57_PM.png"><img style="width:227px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.19.57_PM.png"/></a></figure><figure id="56538c9e-0e3a-4522-9a9e-6cc6091e9979" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.19.51_PM.png"><img style="width:665px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.19.51_PM.png"/></a></figure></div><div id="47d5483c-40d1-4028-8a45-969fecfcbe80" style="width:50%" class="column"><p id="5b803954-bfae-4d2c-a335-6aba34358928" class="">Bilinear</p><figure id="ec70cca4-e4cd-4563-b7c9-16bfbb20cbda" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.19.39_PM.png"><img style="width:223px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.19.39_PM.png"/></a></figure><figure id="b40023b5-fc9e-45df-9511-fab11d8a8e98" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.20.12_PM.png"><img style="width:222px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.20.12_PM.png"/></a></figure><figure id="740f4860-0612-4887-908c-d3830d66991e" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.20.05_PM.png"><img style="width:649px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-13_at_11.20.05_PM.png"/></a></figure></div></div><p id="57fb6545-8524-43ee-bc4b-210d4e0aa868" class="">In the above examples the bilinear sampling clearly creates more continuous looking lines than the nearest sampling. There is a large difference between the methods when drawing skinny lines where a nearest sample could miss the line entirely in a spot where it should be somewhat present (especially when sampling down from a larger texture). The bilinear pixel interpolation helps to alleviate this by ensuring some part of small elements near textures are represented.</p><h2 id="d5fd85fd-00e0-44ab-ab78-adf940b4a3c6" class=""><strong>Part 6: &quot;Level sampling&quot; with mipmaps for texture mapping</strong></h2><p id="8681ea54-fcff-4fd3-a03e-6a1e8c04749c" class="">Level sampling is the idea that we can measure how much a texture is stretched in order to be rendered onto an image by measuring the delta between the u/v space points after they are calculated from two adjacent x/y points. Using this stretch we can sample from different textures which are at different resolutions for performance reasons since it is unnecessary to use a high-resolution texture on a small image when the details will not carry over.</p><p id="71205097-2941-43f4-8308-9ad1eb9ef925" class="">
+</p><p id="7659618e-08a2-4525-b7cf-646f8e6309de" class="">Adding to the number of samples per pixels will help with antialiasing but at a large performance tradeoff since doing 16 samples instead of 1 is essentially increasing the number of computations necessary by 16x. However, it does a strong job antialiasing. Bilinear pixel sampling is a seemingly cheaper way of doing antialiasing though it may not be as strong alone but it will increase speed. Using level sampling we will increase our memory usage but only marginally since the mipmaps loaded will be larger than just the standalone texture.</p><div id="1a65498a-a62f-4211-9334-40e6198e44f1" class="column-list"><div id="fdba146f-13d3-439d-843b-a88a81cee7f9" style="width:50%" class="column"><h3 id="0a8d49aa-6431-4c31-bf1b-435c3ca95df3" class="">L_ZERO, P_NEAREST</h3></div><div id="cdb61291-801a-40af-894b-af3e0f9c02ba" style="width:50%" class="column"><h3 id="4299f0ff-6b8b-4426-b5d2-22ebee628349" class="">L_ZERO, P_LINEAR</h3></div></div><div id="08a17c15-4f8a-4f2a-922c-b1e373e8dc2f" class="column-list"><div id="8928855f-e1f5-487c-b734-ed6cbe0418de" style="width:50%" class="column"><figure id="9815bed5-3e1d-4768-ba73-4e435a9c4bc7" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-14_at_12.05.55_AM.png"><img style="width:566px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-14_at_12.05.55_AM.png"/></a></figure></div><div id="775a7dda-f6cd-4e68-b6da-f2b531c115b4" style="width:50%" class="column"><figure id="dfe4cd02-20c2-4bb5-b8a4-f8dd5374c63c" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-14_at_12.06.23_AM.png"><img style="width:566px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-14_at_12.06.23_AM.png"/></a></figure></div></div><div id="71f94db2-cacd-4c2c-8ab3-c713e9ae6e66" class="column-list"><div id="bddf2a45-a646-4aa4-ba68-483282686b98" style="width:50%" class="column"><h3 id="45f4a550-af91-4202-914c-eaa7de378fef" class="">L_NEAREST, P_NEAREST</h3></div><div id="0856e961-dac8-4f32-96f6-777bb748a8e9" style="width:50%" class="column"><h3 id="90b20f0d-8589-4052-9cd4-69a7d00e756f" class="">L_NEAREST, P_LINEAR</h3></div></div><div id="e220fb40-12f4-4319-bda4-d33f02013ef6" class="column-list"><div id="8426e817-f5b1-478b-8689-76f9f5115541" style="width:50%" class="column"><figure id="1d326a75-cbf1-4636-8ad8-2dcbb0f05759" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-14_at_12.09.07_AM.png"><img style="width:548px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-14_at_12.09.07_AM.png"/></a></figure></div><div id="49459f06-fe62-4f17-8fa7-b9515af7dadc" style="width:50%" class="column"><figure id="89845653-57fd-4285-9596-e6d856a4dee3" class="image"><a href="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-14_at_12.09.20_AM.png"><img style="width:570px" src="CS%20184%20Computer%20Graphics%20and%20Imaging,%20Spring%202023%2003385f577a2c4d8492a88c0a271eb467/Screen_Shot_2023-02-14_at_12.09.20_AM.png"/></a></figure></div></div><p id="6c12bd94-9233-4855-a325-3bbb168e7ec6" class="">
+</p></div></article></body></html>
